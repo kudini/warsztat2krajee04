@@ -5,7 +5,7 @@ public class Excercises {
     private String title;
     private String description;
 
-    public Excercises(int id, String title, String description) {
+    public Excercises(String title, String description) {
         this.id = id;
         this.title = title;
         this.description = description;

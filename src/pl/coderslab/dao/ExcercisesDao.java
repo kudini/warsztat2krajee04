@@ -1,8 +1,6 @@
 package pl.coderslab.dao;
 
 import pl.coderslab.model.Excercises;
-import pl.coderslab.model.Solutions;
-import pl.coderslab.model.Users;
 import pl.coderslab.utils.DBUtils;
 
 import java.sql.Connection;
@@ -98,8 +96,8 @@ public class ExcercisesDao {
         }
     }
     public Excercises[] addToArray(Excercises excercise,Excercises[] excercises){
-        excercises= Arrays.copyOf(excercises,excercises.length+1);
-        excercises[excercises.length]=excercise;
+        Excercises[] tmpExcercises = Arrays.copyOf(excercises, excercises.length + 1);
+        tmpExcercises[excercises.length] = excercise;
         return excercises;
     }
 }

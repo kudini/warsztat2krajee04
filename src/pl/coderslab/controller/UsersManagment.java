@@ -10,55 +10,65 @@ public class UsersManagment {
     private static UsersDao UDAO = new UsersDao();
 
     public static void main(String[] args) {
+        users();
+    }
+
+    static void users() {
         Scanner scan = new Scanner(System.in);
         String commands = "";
-        System.out.println(SEPARATOR);
         boolean quit = false;
-        while (!quit) {
+        do {
             Users[] all = UDAO.findAll();
+            commands = "";
 
             System.out.println("Users in system:");
-            for (int i = 0; i < all.length; i++) {
-                System.out.println(all[i].getId() + ". " + all[i].getUsername());
-            }
+            findAllUsers(all);
 
-            System.out.println(SEPARATOR);
 
             System.out.println("Select - options:");
             System.out.println("1 - add User");
             System.out.println("2 - edit User");
             System.out.println("3 - delete User");
-
-            System.out.println(SEPARATOR);
-
+            System.out.println("4 - Quit");
+            System.out.println(commands);
             quit = commandsDecision(scan, quit);
-
         }
+        while (!quit);
 
-        System.out.println(SEPARATOR);
+    }
+
+    private static void findAllUsers(Users[] all) {
+        for (Users users : all) {
+            System.out.println(users.getId() + ". " + users.getUsername());
+        }
     }
 
     private static boolean commandsDecision(Scanner scan, boolean quit) {
 
         String commands = scan.nextLine();
         System.out.println(SEPARATOR);
-        if (commands.equals("quit")) {
-            quit = true;
-        }else if (commands.equals("add")) {
-            addUser(scan);
-        }else if (commands.equals("1")) {
-            addUser(scan);
+        switch (commands) {
+            case "quit":
+                quit = true;
+                break;
+            case "4":
+                quit = true;
+                break;
+            case "add":
+            case "1":
+                addUser(scan);
+                break;
 
-        }else if (commands.equals("edit")) {
-            editUser(scan);
-        }else if (commands.equals("2")) {
-            editUser(scan);
-        }else if (commands.equals("delete")) {
-            deleteUser(scan);
-        } else if (commands.equals("3")) {
-            deleteUser(scan);
-        }else if (commands.equals("")){
-            System.out.println("Wrong Choice!");
+            case "edit":
+            case "2":
+                editUser(scan);
+                break;
+            case "delete":
+            case "3":
+                deleteUser(scan);
+                break;
+            default:
+                System.out.println("Unexpected value:" + commands);
         }
         return quit;
     }
@@ -98,6 +108,8 @@ public class UsersManagment {
         UDAO.update(user);
         System.out.println("User has been updated");
         System.out.println(SEPARATOR);
+        scan.nextLine();
+
     }
 
     private static void addUser(Scanner scan) {
@@ -121,11 +133,13 @@ public class UsersManagment {
 
             System.out.println();
             Users user = new Users(username, email, password, userGroupId);
-            Users tester=UDAO.create(user);
-            if(user!=null) {
+            Users tester = UDAO.create(user);
+            if (user != null) {
                 System.out.println("User added successfully.");
-            }else{
+                scan.nextLine();
+            } else {
                 System.out.println("Error! Can't add user to database.");
+                scan.nextLine();
             }
         } catch (Exception e) {
             System.out.println();
@@ -136,4 +150,5 @@ public class UsersManagment {
         }
         System.out.println(SEPARATOR);
     }
+
 }
