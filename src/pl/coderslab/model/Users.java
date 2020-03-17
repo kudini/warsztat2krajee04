@@ -1,17 +1,28 @@
-package pl.coderslab.warsztat2krajeew04.model;
+package pl.coderslab.model;
 
-public class User {
+public class Users {
     private int id;
     private String username;
     private String email;
     private String password;
+    private int userGroupId;
 
-    public User(String username, String email, String password) {
+    public int getUserGroupId() {
+        return userGroupId;
+    }
+
+    public void setUserGroupId(int userGroupId) {
+        this.userGroupId = userGroupId;
+    }
+
+    public Users(String username, String email, String password, int userGroupId) {
         this.username = username;
         this.email = email;
         this.password = password;
+        this.userGroupId = userGroupId;
     }
-    public User(){
+
+    public Users() {
 
     }
 
