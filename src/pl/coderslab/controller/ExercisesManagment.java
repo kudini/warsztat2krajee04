@@ -1,13 +1,13 @@
 package pl.coderslab.controller;
 
-import pl.coderslab.dao.ExcercisesDao;
-import pl.coderslab.model.Excercises;
+import pl.coderslab.dao.ExercisesDao;
+import pl.coderslab.model.Exercise;
 
 import java.util.Scanner;
 
 public class ExercisesManagment {
     private static String SEPARATOR = "----------------------------";
-    private static ExcercisesDao EDAO = new ExcercisesDao();
+    private static ExercisesDao EDAO = new ExercisesDao();
 
     public static void main(String[] args) {
         exercises();
@@ -18,7 +18,7 @@ public class ExercisesManagment {
         String commands = "";
         boolean quit = false;
         do {
-            Excercises[] all = EDAO.findAll();
+            Exercise[] all = EDAO.findAll();
 
             System.out.println("Exercises in system:");
             findAllExercises(all);
@@ -37,9 +37,9 @@ public class ExercisesManagment {
 
     }
 
-    private static void findAllExercises(Excercises[] all) {
-        for (Excercises excercises : all) {
-            System.out.println(excercises.getId() + ". " + excercises.getTitle());
+    private static void findAllExercises(Exercise[] all) {
+        for (Exercise eExercise : all) {
+            System.out.println(eExercise.getId() + ". " + eExercise.getTitle());
         }
     }
 
@@ -98,7 +98,7 @@ public class ExercisesManagment {
 
         String description = scan.nextLine();
 
-        Excercises user = new Excercises();
+        Exercise user = new Exercise();
         user.setId(exerciseId);
         user.setTitle(title);
         user.setDescription(description);
@@ -122,8 +122,8 @@ public class ExercisesManagment {
             String description = scan.nextLine();
 
             System.out.println();
-            Excercises excercise = new Excercises(title, description);
-            Excercises tester = EDAO.create(excercise);
+            Exercise excercise = new Exercise(title, description);
+            Exercise tester = EDAO.create(excercise);
             if (tester != null) {
                 System.out.println("Exercise added successfully.");
                 scan.nextLine();

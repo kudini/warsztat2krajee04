@@ -6,6 +6,10 @@ public class AdminTools {
     private static String SEPARATOR = "----------------------------";
 
     public static void main(String[] args) {
+        admin();
+    }
+
+    static void admin() {
         Scanner scan = new Scanner(System.in);
         String commands = "";
         boolean quit = false;
@@ -22,7 +26,6 @@ public class AdminTools {
             quit = commandsDecision(scan, quit);
 
         }
-
     }
 
     private static boolean commandsDecision(Scanner scan, boolean quit) {
