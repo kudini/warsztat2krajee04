@@ -104,8 +104,8 @@ public class UsersDao {
         }
     }
     public Users[] addToArray(Users user,Users[] users){
-        users= Arrays.copyOf(users,users.length+1);
-        users[users.length]=user;
-        return users;
+        Users[] tmpUsers= Arrays.copyOf(users,users.length+1);
+        tmpUsers[users.length]=user;
+        return tmpUsers;
     }
 }

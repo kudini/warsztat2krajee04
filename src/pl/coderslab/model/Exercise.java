@@ -1,17 +1,17 @@
 package pl.coderslab.model;
 
-public class Excercises {
+public class Exercise {
     private int id;
     private String title;
     private String description;
 
-    public Excercises(int id, String title, String description) {
+    public Exercise(String title, String description) {
         this.id = id;
         this.title = title;
         this.description = description;
     }
 
-    public Excercises() {
+    public Exercise() {
     }
 
     public int getId() {

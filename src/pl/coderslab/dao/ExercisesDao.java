@@ -1,8 +1,6 @@
 package pl.coderslab.dao;
 
-import pl.coderslab.model.Excercises;
-import pl.coderslab.model.Solutions;
-import pl.coderslab.model.Users;
+import pl.coderslab.model.Exercise;
 import pl.coderslab.utils.DBUtils;
 
 import java.sql.Connection;
@@ -11,22 +9,22 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Arrays;
 
-public class ExcercisesDao {
-    private static final String CREATE_USER_QUERY =
+public class ExercisesDao {
+    private static final String CREATE_EXERCISE_QUERY =
             "INSERT INTO exercises(title, description) VALUES (?, ?)";
-    private static final String READ_USER_QUERY =
+    private static final String READ_EXERCISE_QUERY =
             "SELECT * FROM exercises where id = ?";
-    private static final String UPDATE_USER_QUERY =
+    private static final String UPDATE_EXERCISE_QUERY =
             "UPDATE exercises SET title = ?, description = ? where id = ?";
-    private static final String DELETE_USER_QUERY =
+    private static final String DELETE_EXERCISE_QUERY =
             "DELETE FROM exercises WHERE id = ?";
-    private static final String FIND_ALL_USERS_QUERY =
+    private static final String FIND_ALL_EXERCISE_QUERY =
             "SELECT * FROM exercises";
 
 
-    public Excercises create(Excercises excercise) {
+    public Exercise create(Exercise excercise) {
         try (Connection connection = DBUtils.getConnection()) {
-            PreparedStatement preparedStatement = connection.prepareStatement(CREATE_USER_QUERY, PreparedStatement.RETURN_GENERATED_KEYS);
+            PreparedStatement preparedStatement = connection.prepareStatement(CREATE_EXERCISE_QUERY, PreparedStatement.RETURN_GENERATED_KEYS);
             preparedStatement.setString(1, excercise.getTitle());
             preparedStatement.setString(2, excercise.getDescription());
             preparedStatement.executeUpdate();
@@ -41,13 +39,13 @@ public class ExcercisesDao {
         }
     }
 
-    public Excercises read(int excerciseId) {
+    public Exercise read(int excerciseId) {
         try (Connection connection = DBUtils.getConnection()) {
-            PreparedStatement preparedStatement = connection.prepareStatement(READ_USER_QUERY);
+            PreparedStatement preparedStatement = connection.prepareStatement(READ_EXERCISE_QUERY);
             preparedStatement.setInt(1, excerciseId);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
-                Excercises exercise = new Excercises();
+                Exercise exercise = new Exercise();
                 exercise.setId(resultSet.getInt("id"));
                 exercise.setTitle(resultSet.getString("title"));
                 exercise.setDescription(resultSet.getString("description"));
@@ -59,17 +57,18 @@ public class ExcercisesDao {
         }
         return null;
     }
-    public Excercises[] findAll() {
+
+    public Exercise[] findAll() {
         try (Connection conn = DBUtils.getConnection()) {
-            Excercises[] exercises = new Excercises[0];
-            PreparedStatement statement = conn.prepareStatement(FIND_ALL_USERS_QUERY);
+            Exercise[] exercises = new Exercise[0];
+            PreparedStatement statement = conn.prepareStatement(FIND_ALL_EXERCISE_QUERY);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                Excercises excercise = new Excercises();
-                excercise.setId(resultSet.getInt("id"));
-                excercise.setTitle(resultSet.getString("title"));
-                excercise.setDescription(resultSet.getString("description"));
-                exercises = addToArray(excercise, exercises);
+                Exercise newExercise = new Exercise();
+                newExercise.setId(resultSet.getInt("id"));
+                newExercise.setTitle(resultSet.getString("title"));
+                newExercise.setDescription(resultSet.getString("description"));
+                exercises = addToArray(newExercise, exercises);
             }
             return exercises;
         } catch (SQLException e) {
@@ -77,9 +76,10 @@ public class ExcercisesDao {
             return null;
         }
     }
-    public void update(Excercises excercise) {
+
+    public void update(Exercise excercise) {
         try (Connection conn = DBUtils.getConnection()) {
-            PreparedStatement statement = conn.prepareStatement(UPDATE_USER_QUERY);
+            PreparedStatement statement = conn.prepareStatement(UPDATE_EXERCISE_QUERY);
             statement.setString(1, excercise.getTitle());
             statement.setString(2, excercise.getDescription());
             statement.setInt(3, excercise.getId());
@@ -88,18 +88,20 @@ public class ExcercisesDao {
             e.printStackTrace();
         }
     }
+
     public void delete(int exerciseId) {
         try (Connection conn = DBUtils.getConnection()) {
-            PreparedStatement statement = conn.prepareStatement(DELETE_USER_QUERY);
+            PreparedStatement statement = conn.prepareStatement(DELETE_EXERCISE_QUERY);
             statement.setInt(1, exerciseId);
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
-    public Excercises[] addToArray(Excercises excercise,Excercises[] excercises){
-        excercises= Arrays.copyOf(excercises,excercises.length+1);
-        excercises[excercises.length]=excercise;
-        return excercises;
+
+    public Exercise[] addToArray(Exercise excercise, Exercise[] excercises) {
+        Exercise[] tmpExcercises = Arrays.copyOf(excercises, excercises.length + 1);
+        tmpExcercises[excercises.length] = excercise;
+        return tmpExcercises;
     }
 }
